@@ -20,19 +20,84 @@ enum Region {
   APAC
 }
 
+enum BoardType {
+  RASPBERRYPI
+  ARDUINO
+  PARTICLE
+  OTHER
+}
+
+enum SensorType {
+  PH
+  TEMPERATURE
+  FLOW
+  DO
+}
+
 model Customer {
-  id       String  @id @default(auto()) @map("_id") @db.ObjectId
-  name     String  @unique
-  address1 String
-  address2 String
-  city     String
-  zipCode  String
-  state    String
-  country  String
-  region   Region
-  phone    String
-  website  String
-  active   Boolean
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  name      String   @unique
+  address1  String
+  address2  String
+  city      String
+  zipCode   String
+  state     String
+  country   String
+  region    Region
+  phone     String
+  website   String
+  active    Boolean
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+  sites     Site[]
+}
+
+model Site {
+  id         String   @id @default(auto()) @map("_id") @db.ObjectId
+  name       String
+  address1   String
+  address2   String
+  city       String
+  zipCode    String
+  state      String
+  country    String
+  region     Region
+  customerId String   @db.ObjectId
+  customer   Customer @relation(fields: [customerId], references: [id])
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+  points     Point[]
+}
+
+model Point {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  name      String
+  latitude  Float
+  longitude Float
+  siteId    String   @db.ObjectId
+  site      Site     @relation(fields: [siteId], references: [id])
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  boards    Board[]
+}
+
+model Board {
+  id        String    @id @default(auto()) @map("_id") @db.ObjectId
+  name      String
+  boardType BoardType @default(ARDUINO)
+  pointId   String    @db.ObjectId
+  point     Point     @relation(fields: [pointId], references: [id])
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  sensors   Sensor[]
+}
+
+model Sensor {
+  id         String     @id @default(auto()) @map("_id") @db.ObjectId
+  name       String
+  sensorType SensorType @default(TEMPERATURE)
+  boardId    String     @db.ObjectId
+  board      Board      @relation(fields: [boardId], references: [id])
+  createdAt  DateTime   @default(now())
+  updatedAt  DateTime   @updatedAt
 }
