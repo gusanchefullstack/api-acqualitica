@@ -1,9 +1,12 @@
 import customerService from "../services/customer.js";
 
+
 const getAllCustomers = async (req, res, next) => {
   try {
     const allCustomers = await customerService.getAllCustomers();
-    res.status(200).json({ status: "Ok", items: allCustomers.length, data: allCustomers });
+    res
+      .status(200)
+      .json({ status: "Ok", items: allCustomers.length, data: allCustomers });
   } catch (error) {
     next(error);
   }
