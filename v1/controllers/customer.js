@@ -1,6 +1,5 @@
 import customerService from "../services/customer.js";
 
-
 const getAllCustomers = async (req, res, next) => {
   try {
     const allCustomers = await customerService.getAllCustomers();
@@ -47,30 +46,34 @@ const createCustomer = async (req, res, next) => {
     next(error);
   }
 };
-const updateCustomer = async (req, res) => {
-  const { id } = req.params;
-  const { body } = req;
-  const updatedCustomerData = {
-    name: body.name,
-    address1: body.address1,
-    address2: body.address2,
-    city: body.city,
-    zipCode: body.zipCode,
-    state: body.state,
-    country: body.country,
-    region: body.region,
-    phone: body.phone,
-    website: body.website,
-    active: body.active,
-  };
-  const updatedCustomer = await customerService.updateCustomer(
-    id,
-    updatedCustomerData
-  );
-  res.status(202).json({
-    status: "Ok",
-    data: updatedCustomer,
-  });
+const updateCustomer = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    const { body } = req;
+    const updatedCustomerData = {
+      name: body.name,
+      address1: body.address1,
+      address2: body.address2,
+      city: body.city,
+      zipCode: body.zipCode,
+      state: body.state,
+      country: body.country,
+      region: body.region,
+      phone: body.phone,
+      website: body.website,
+      active: body.active,
+    };
+    const updatedCustomer = await customerService.updateCustomer(
+      id,
+      updatedCustomerData
+    );
+    res.status(202).json({
+      status: "Ok",
+      data: updatedCustomer,
+    });
+  } catch (error) {
+    next(error);
+  }
 };
 const deleteCustomer = async (req, res, next) => {
   try {

@@ -31,7 +31,7 @@ customerRouter.post(
   customerRegion().exists().withMessage("Missing customer region"),
   customerPhone().exists().withMessage("Missing customer phone"),
   customerWebsite().exists().withMessage("Missing customer website"),
-  customerActive().exists().withMessage("Missing customer active state"),
+  customerActive().exists().withMessage("Missing customer status"),
   handleInputErrors,
   customerController.createCustomer
 );
@@ -41,6 +41,7 @@ customerRouter.get(
   handleInputErrors,
   customerController.getSingleCustomer
 );
+
 customerRouter.patch(
   "/:id",
   customerId(),

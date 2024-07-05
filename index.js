@@ -12,6 +12,10 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 app.use("/api/v1", apiv1Router);
+app.use((err, req, res, next) => {
+  console.log("************* API Default error Handler **************");
+  console.log(err.message)
+})
 
 app.listen(process.env.EXPRESS_PORT, () =>
   console.log(
