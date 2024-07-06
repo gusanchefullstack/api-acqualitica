@@ -4,7 +4,15 @@ const prisma = new PrismaClient();
 
 const getAllSites = async () => {
   try {
-    const allSites = await prisma.site.findMany();
+    const allSites = await prisma.site.findMany({
+      include: {
+        _count: {
+          select: {
+            points: true,
+          },
+        },
+      },
+    });
     return allSites;
   } catch (error) {
     throw error;
@@ -12,7 +20,18 @@ const getAllSites = async () => {
 };
 const getSingleSite = async (id) => {
   try {
-    const site = await prisma.site.findUnique({ where: { id: id } });
+    const site = await prisma.site.findUnique({
+      where: { id: id },
+      include: {
+        points: {
+          select: {
+            name: true,
+            latitude: true,
+            longitude: true,
+          },
+        },
+      },
+    });
     return site;
   } catch (error) {
     throw error;

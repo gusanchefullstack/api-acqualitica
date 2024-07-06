@@ -4,7 +4,15 @@ const prisma = new PrismaClient();
 
 const getAllCustomers = async () => {
   try {
-    const allCustomers = await prisma.customer.findMany();
+    const allCustomers = await prisma.customer.findMany({
+      include: {
+        _count: {
+          select: {
+            sites: true,
+          },
+        },
+      },
+    });
     return allCustomers;
   } catch (error) {
     throw error;
@@ -15,6 +23,15 @@ const getSingleCustomer = async (id) => {
     const customer = await prisma.customer.findUnique({
       where: {
         id: id,
+      },
+      include: {
+        sites: {
+          select: {
+            name: true,
+            address1: true,
+            city: true,
+          },
+        },
       },
     });
     return customer;
