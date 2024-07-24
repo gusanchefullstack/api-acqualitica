@@ -4,11 +4,7 @@ const prisma = new PrismaClient();
 
 const getAllSensors = async () => {
   try {
-    const allSensors = await prisma.sensor.findMany({
-      include: {
-        _count: true,
-      },
-    });
+    const allSensors = await prisma.sensor.findMany({});
     return allSensors;
   } catch (error) {
     throw error;
