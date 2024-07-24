@@ -2,54 +2,54 @@ import { PrismaClient } from "@prisma/client";
 
 const prisma = new PrismaClient();
 
-const getAllSites = async () => {
+const getAllBoards = async () => {
   try {
-    const allSites = await prisma.site.findMany({
+    const allBoards = await prisma.board.findMany({
       include: {
         _count: {
           select: {
-            points: true,
+            sensors: true,
           },
         },
       },
     });
-    return allSites;
+    return allBoards;
   } catch (error) {
     throw error;
   }
 };
-const getSingleSite = async (id) => {
+const getSingleBoard = async (id) => {
   try {
-    const site = await prisma.site.findUnique({
+    const board = await prisma.board.findUnique({
       where: { id: id },
       include: {
-        points: {
+        sensors: {
           select: {
             name: true,
             id: true,
-            latlng: true,
+            sensorType: true,
           },
         },
       },
     });
-    return site;
+    return board;
   } catch (error) {
     throw error;
   }
 };
-const createSite = async (data) => {
+const createBoard = async (data) => {
   try {
-    const site = await prisma.site.create({
+    const board = await prisma.board.create({
       data: data,
     });
-    return site;
+    return board;
   } catch (error) {
     throw error;
   }
 };
-const updateSite = async (id, data) => {
+const updateBoard = async (id, data) => {
   try {
-    const updatedSite = await prisma.site.update({
+    const updatedBoard = await prisma.board.update({
       where: {
         id: id,
       },
@@ -57,28 +57,28 @@ const updateSite = async (id, data) => {
         ...data,
       },
     });
-    return updatedSite;
+    return updatedBoard;
   } catch (error) {
     throw error;
   }
 };
-const deleteSite = async (id) => {
+const deleteBoard = async (id) => {
   try {
-    const deletedSite = await prisma.site.delete({
+    const deletedBoard = await prisma.board.delete({
       where: {
         id: id,
       },
     });
-    return deletedSite;
+    return deletedBoard;
   } catch (error) {
     throw error;
   }
 };
 
 export default {
-  getAllSites,
-  getSingleSite,
-  createSite,
-  updateSite,
-  deleteSite,
+  getAllBoards,
+  getSingleBoard,
+  createBoard,
+  updateBoard,
+  deleteBoard,
 };

@@ -28,8 +28,10 @@ const getSingleCustomer = async (id) => {
         sites: {
           select: {
             name: true,
-            address1: true,
+            id: true,
+            country: true,
             city: true,
+            address1: true,
           },
         },
       },

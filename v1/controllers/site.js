@@ -53,16 +53,14 @@ const updateSite = async (req, res, next) => {
       state: body.state,
       country: body.country,
       region: body.region,
-      phone: body.phone,
-      customerId: body.customerId,
     };
-    const updatedCustomer = await siteService.updateSite(
+    const updatedSite = await siteService.updateSite(
       id,
       updatedSiteData
     );
     res.status(202).json({
       status: "Ok",
-      data: updatedCustomer,
+      data: updatedSite,
     });
   } catch (error) {
     next(error);

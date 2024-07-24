@@ -2,54 +2,54 @@ import { PrismaClient } from "@prisma/client";
 
 const prisma = new PrismaClient();
 
-const getAllSites = async () => {
+const getAllPoints = async () => {
   try {
-    const allSites = await prisma.site.findMany({
+    const allPoints = await prisma.point.findMany({
       include: {
         _count: {
           select: {
-            points: true,
+            boards: true,
           },
         },
       },
     });
-    return allSites;
+    return allPoints;
   } catch (error) {
     throw error;
   }
 };
-const getSingleSite = async (id) => {
+const getSinglePoint = async (id) => {
   try {
-    const site = await prisma.site.findUnique({
+    const point = await prisma.point.findUnique({
       where: { id: id },
       include: {
-        points: {
+        boards: {
           select: {
             name: true,
             id: true,
-            latlng: true,
+            boardType: true,
           },
         },
       },
     });
-    return site;
+    return point;
   } catch (error) {
     throw error;
   }
 };
-const createSite = async (data) => {
+const createPoint = async (data) => {
   try {
-    const site = await prisma.site.create({
+    const point = await prisma.point.create({
       data: data,
     });
-    return site;
+    return point;
   } catch (error) {
     throw error;
   }
 };
-const updateSite = async (id, data) => {
+const updatePoint = async (id, data) => {
   try {
-    const updatedSite = await prisma.site.update({
+    const updatedPoint = await prisma.point.update({
       where: {
         id: id,
       },
@@ -57,28 +57,28 @@ const updateSite = async (id, data) => {
         ...data,
       },
     });
-    return updatedSite;
+    return updatedPoint;
   } catch (error) {
     throw error;
   }
 };
-const deleteSite = async (id) => {
+const deletePoint = async (id) => {
   try {
-    const deletedSite = await prisma.site.delete({
+    const deletedPoint = await prisma.point.delete({
       where: {
         id: id,
       },
     });
-    return deletedSite;
+    return deletedPoint;
   } catch (error) {
     throw error;
   }
 };
 
 export default {
-  getAllSites,
-  getSingleSite,
-  createSite,
-  updateSite,
-  deleteSite,
+  getAllPoints,
+  getSinglePoint,
+  createPoint,
+  updatePoint,
+  deletePoint,
 };

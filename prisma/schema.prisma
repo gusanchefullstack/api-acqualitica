@@ -72,8 +72,7 @@ model Site {
 model Point {
   id        String   @id @default(auto()) @map("_id") @db.ObjectId
   name      String
-  latitude  Float
-  longitude Float
+  latlng    String
   siteId    String   @db.ObjectId
   site      Site     @relation(fields: [siteId], references: [id])
   createdAt DateTime @default(now())
