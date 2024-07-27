@@ -22,10 +22,18 @@ const getSingleSensor = async (id) => {
 };
 const createSensor = async (data) => {
   try {
-    const sensor = await prisma.sensor.create({
-      data: data,
+    const { boardId } = data;
+    const board = await prisma.board.findUniqueOrThrow({
+      where: {
+        id: boardId,
+      },
     });
-    return sensor;
+    if (board) {
+      const sensor = await prisma.sensor.create({
+        data: data,
+      });
+      return sensor;
+    }
   } catch (error) {
     throw error;
   }

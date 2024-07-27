@@ -26,7 +26,7 @@ siteRouter.get(
 siteRouter.post(
   "/",
   customerId().exists().withMessage("Missing customerId"),
-  siteName().exists().withMessage("Missing site name"),
+  siteName().exists().withMessage("Missing site name").isLength({min:3, max:250}).withMessage("Invalid name lenght min:3 max:250"),
   siteAddress1().exists().withMessage("Missing site address line 1"),
   siteAddress2().exists().withMessage("Missing site address line 2"),
   siteZipCode().exists().withMessage("Missing site zip code"),

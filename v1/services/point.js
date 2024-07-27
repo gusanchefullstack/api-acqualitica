@@ -39,10 +39,18 @@ const getSinglePoint = async (id) => {
 };
 const createPoint = async (data) => {
   try {
-    const point = await prisma.point.create({
-      data: data,
+    const { siteId } = data;
+    const site = await prisma.site.findUniqueOrThrow({
+      where: {
+        id: siteId,
+      },
     });
-    return point;
+    if (site) {
+      const point = await prisma.point.create({
+        data: data,
+      });
+      return point;
+    }
   } catch (error) {
     throw error;
   }

@@ -39,10 +39,18 @@ const getSingleBoard = async (id) => {
 };
 const createBoard = async (data) => {
   try {
-    const board = await prisma.board.create({
-      data: data,
+    const { pointId } = data;
+    const point = await prisma.point.findUniqueOrThrow({
+      where: {
+        id: pointId,
+      },
     });
-    return board;
+    if (point) {
+      const board = await prisma.board.create({
+        data: data,
+      });
+      return board;
+    }
   } catch (error) {
     throw error;
   }

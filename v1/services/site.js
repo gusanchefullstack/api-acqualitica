@@ -39,10 +39,18 @@ const getSingleSite = async (id) => {
 };
 const createSite = async (data) => {
   try {
-    const site = await prisma.site.create({
-      data: data,
+    const { customerId } = data;
+    const customer = await prisma.customer.findUniqueOrThrow({
+      where: {
+        id: customerId,
+      },
     });
-    return site;
+    if (customer) {
+      const site = await prisma.site.create({
+        data: data,
+      });
+      return site;
+    }
   } catch (error) {
     throw error;
   }
